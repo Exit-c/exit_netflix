@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useLocation } from 'react-router-dom';
-import ClipLoader from 'react-spinners/ClipLoader';
 import styled from 'styled-components';
 import MoviePagination from '../componens/MoviePagination';
 import MovieSort from '../componens/MovieSort';
@@ -37,30 +36,33 @@ const StyleMoviesContainer = styled.div`
 const API_KEY = process.env.REACT_APP_API_KEY;
 
 const Movies = () => {
-  const loading = useSelector((state) => state.movie.loading);
   // 영화정보 페이지 상태관리
   const [activePage, setActivePage] = useState(1);
+
   // 영화 정보를 담을 상태관리
   const [movies, setMovies] = useState([]);
+
   // 영화 정렬 상태관리
   const [sortBy, setSortBy] = useState('popularity.desc');
+
   // 영화 년도별 필터 상태관리
-  const [year, setYear] = useState({
-    min: 1990,
-    max: new Date().getFullYear(),
-  });
+  const [year, setYear] = useState([1990, new Date().getFullYear()]); //ratings와 다르게 배열로 담아서 작업해봄.
+
   // 영화 평점 필터 상태관리
   const [ratings, setRatings] = useState({
     min: 0,
     max: 10,
   });
+
   // 영화 장르 필터 상태관리
   const [genres, setGenres] = useState('');
 
   const dispatch = useDispatch();
+
   // 검색어 호출
   const location = useLocation();
   const searchQuery = new URLSearchParams(location.search).get('search');
+
   // npm pagination 이벤트
   const handlePageChange = (pageNumber) => {
     console.log(`active page is ${pageNumber}`);
@@ -78,8 +80,8 @@ const Movies = () => {
         } else {
           let url = `/discover/movie?api_key=${API_KEY}&sort_by=${sortBy}&page=${activePage}&vote_average.gte=${ratings.min}&vote_average.lte=${ratings.max}&with_genres=${genres}`;
           // 년도별 필터링을 더 정확하게 하기 위해 조건문 추가
-          if (year.min && year.max) {
-            url += `&primary_release_date.gte=${year.min}-01-01&primary_release_date.lte=${year.max}-12-31`;
+          if (year[0] && year[1]) {
+            url += `&primary_release_date.gte=${year[0]}-01-01&primary_release_date.lte=${year[1]}-12-31`;
           }
 
           response = await api.get(url);
@@ -95,13 +97,6 @@ const Movies = () => {
     fetchMovies();
   }, [activePage, searchQuery, sortBy, year, ratings, genres]);
 
-  if (loading) {
-    return (
-      <StyleBg>
-        <ClipLoader color="red" loading={loading} size={150} />
-      </StyleBg>
-    );
-  }
   return (
     <div style={{ backgroundColor: '#000' }}>
       <StyleMoviesContainer>
