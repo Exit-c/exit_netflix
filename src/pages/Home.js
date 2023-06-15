@@ -31,15 +31,11 @@ const Home = () => {
     (state) => state.movie
   );
 
-  console.log('popular1', popularMovies);
-  console.log('topRated2', topRatedMovies);
-  console.log('upcoming3', upcomingMovies);
-
   let dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(movieAction.getMovies());
-  }, []);
+  }, [dispatch]);
 
   if (loading) {
     return (
@@ -51,15 +47,31 @@ const Home = () => {
   return (
     <div>
       <div>
-        <MovieBanner movie={popularMovies.results[0]} />
+        {popularMovies &&
+          popularMovies.results &&
+          popularMovies.results.length > 0 && (
+            <MovieBanner movie={popularMovies.results[0]} />
+          )}
       </div>
       <StyleBg2>
         <h1 className="home-h1">Top Popular Movies</h1>
-        <MovieSlide movies={popularMovies} />
+        {popularMovies &&
+          popularMovies.results &&
+          popularMovies.results.length > 0 && (
+            <MovieSlide movies={popularMovies} />
+          )}
         <h1 className="home-h1">Top Rated Movies</h1>
-        <MovieSlide movies={topRatedMovies} />
+        {topRatedMovies &&
+          topRatedMovies.results &&
+          topRatedMovies.results.length > 0 && (
+            <MovieSlide movies={topRatedMovies} />
+          )}
         <h1 className="home-h1">Upcoming Movies</h1>
-        <MovieSlide movies={upcomingMovies} />
+        {upcomingMovies &&
+          upcomingMovies.results &&
+          upcomingMovies.results.length > 0 && (
+            <MovieSlide movies={upcomingMovies} />
+          )}
       </StyleBg2>
     </div>
   );

@@ -8,14 +8,6 @@ import MovieFilter from '../componens/MovieFilter';
 import api from '../redux/api';
 import { movieActions } from '../redux/reducers/movieReducer';
 
-const StyleBg = styled.div`
-  width: 100%;
-  height: 100vh;
-  background: #000;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
 const StyleMoviesContainer = styled.div`
   width: 1200px;
   overflow: hidden;

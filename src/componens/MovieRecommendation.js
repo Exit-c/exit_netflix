@@ -66,11 +66,14 @@ const MovieRecommendation = ({ recommendation }) => {
           <div className="reco-bg">
             <h2>{item.title}</h2>
             <div>
-              {item?.genre_ids?.map((id, index) => (
-                <Badge bg="danger" className="reco-genre" key={index}>
-                  {genreList.find((item) => item.id === id).name}
-                </Badge>
-              ))}
+              {item.genre_ids?.map((id, index) => {
+                const genre = genreList.find((item) => item.id === id);
+                return genre ? (
+                  <Badge bg="danger" key={index} className="page-genre">
+                    {genre.name}
+                  </Badge>
+                ) : null;
+              })}
             </div>
             <div className="reco-vote">
               <span>{item?.vote_average}</span>

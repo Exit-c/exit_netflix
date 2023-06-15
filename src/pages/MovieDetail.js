@@ -77,7 +77,7 @@ const MovieDetail = () => {
     };
 
     fetchMovieDetail();
-  }, [id]);
+  }, [id, API_KEY, dispatch]);
 
   if (loading) {
     return (

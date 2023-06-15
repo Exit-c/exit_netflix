@@ -82,6 +82,7 @@ const MovieDetailInfo = ({ movie, video }) => {
         <img
           className="info-img"
           src={`https://image.tmdb.org/t/p/original/${movie?.poster_path}`}
+          alt="poster image"
         />
       </div>
       <ul className="movie-info">
@@ -102,11 +103,11 @@ const MovieDetailInfo = ({ movie, video }) => {
             title="고객 만족 아이콘"
           >
             {/* 고객 만족 아이콘 제작자: Freepik - Flaticon */}
-            <img src={review} />
+            <img src={review} alt="review" />
           </a>
           <span>{movie?.vote_average}</span>
           <a href="https://www.flaticon.com/kr/free-icons/" title="사람 아이콘">
-            <img src={leadership} />
+            <img src={leadership} alt="leadership" />
             {/* 사람 아이콘 제작자: Gajah Mada - Flaticon */}
           </a>
           <span>{movie?.vote_count}</span>
@@ -151,7 +152,7 @@ const MovieDetailInfo = ({ movie, video }) => {
         <li>
           <a href="https://www.flaticon.com/kr/free-icons/" title="필름 아이콘">
             {/* 아이콘 제작자: Pause08 - Flaticon */}
-            <img src={film} width={20} />
+            <img src={film} alt="film" width={20} />
           </a>
           <span className="info-trailer" onClick={() => setShow(true)}>
             Watch Trailer
@@ -171,9 +172,11 @@ const MovieDetailInfo = ({ movie, video }) => {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <div>
-            <YouTube videoId={video?.results[0].key} opts={opts} />
-          </div>
+          {video && video.results.length > 0 && (
+            <div>
+              <YouTube videoId={video.results[0].key} opts={opts} />
+            </div>
+          )}
         </Modal.Body>
       </Modal>
     </StyleDetailInfo>

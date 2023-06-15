@@ -123,15 +123,19 @@ const MoviePagination = ({ movies, activePage, handlePageChange }) => {
           }}
         >
           <div className="page-container">
-            {item.genre_ids?.map((id, index) => (
-              <Badge bg="danger" key={index} className="page-genre">
-                {genreList.find((item) => item.id === id).name}
-              </Badge>
-            ))}
+            {item.genre_ids?.map((id, index) => {
+              const genre = genreList.find((item) => item.id === id);
+              return genre ? (
+                <Badge bg="danger" key={index} className="page-genre">
+                  {genre.name}
+                </Badge>
+              ) : null;
+            })}
             <div className="page-title">
               <img
                 className="page-poster"
                 src={`https://image.tmdb.org/t/p/original//${item.poster_path}`}
+                alt="poster image"
               />
               <h2>{item.title}</h2>
               <span>{item.release_date.substr(0, 4)}</span>
@@ -143,14 +147,14 @@ const MoviePagination = ({ movies, activePage, handlePageChange }) => {
                 title="고객 만족 아이콘"
               >
                 {/* 고객 만족 아이콘 제작자: Freepik - Flaticon */}
-                <img src={review} />
+                <img src={review} alt="review" />
               </a>
               <span>{item.vote_average}</span>
               <a
                 href="https://www.flaticon.com/kr/free-icons/"
                 title="사람 아이콘"
               >
-                <img src={leadership} />
+                <img src={leadership} alt="leadership" />
                 {/* 사람 아이콘 제작자: Gajah Mada - Flaticon */}
               </a>
 
